@@ -7,29 +7,82 @@
 
 <style>
 *{box-sizing:border-box}
+
 body{
     margin:0;
     font-family:'Segoe UI',sans-serif;
     background:linear-gradient(135deg,#ff6a88,#ff99ac);
     min-height:100vh;
     display:flex;
-    align-items:center;
     justify-content:center;
+    align-items:center;
     padding:20px;
-    overflow:hidden;
 }
+
 .card{
-    background:rgba(255,255,255,.96);
+    background:rgba(255,255,255,.97);
     border-radius:26px;
-    padding:26px 22px;
+    padding:24px 22px;
     max-width:420px;
     width:100%;
     text-align:center;
     box-shadow:0 25px 50px rgba(0,0,0,.25);
-    animation:fadeIn 1.5s ease;
+    animation:fadeIn 1.4s ease;
+}
+
+/* FOTO SLIDER */
+.slider{
+    position:relative;
+    height:260px;
+    border-radius:22px;
+    overflow:hidden;
+    margin-bottom:18px;
+    box-shadow:0 15px 35px rgba(0,0,0,.25);
+    touch-action:pan-y;
+}
+
+.slider::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(to top,rgba(0,0,0,.45),rgba(0,0,0,.05));
     z-index:2;
 }
-h1{color:#ff4d6d;font-size:26px;margin-bottom:10px}
+
+.slider img{
+    width:50%;
+    height:auto;
+    object-fit:cover;
+    position:absolute;
+    opacity:0;
+    transform:scale(1.15);
+    transition:opacity 1s ease, transform 6s ease;
+}
+
+.slider img.active{
+    opacity:1;
+    transform:scale(1);
+}
+
+.caption{
+    position:absolute;
+    bottom:14px;
+    left:16px;
+    right:16px;
+    color:white;
+    font-size:14px;
+    z-index:3;
+    text-align:left;
+    opacity:.9;
+}
+
+/* INFO */
+h1{
+    color:#ff4d6d;
+    font-size:26px;
+    margin-bottom:10px;
+}
+
 .info{
     background:#fff0f4;
     border-radius:18px;
@@ -39,47 +92,23 @@ h1{color:#ff4d6d;font-size:26px;margin-bottom:10px}
     color:#ff4d6d;
     line-height:1.6;
 }
-.slider{
-    position:relative;
-    height:240px;
-    border-radius:22px;
-    overflow:hidden;
-    margin-bottom:18px;
-    box-shadow:0 15px 35px rgba(0,0,0,.25);
-}
 
-.slider::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:linear-gradient(
-        to top,
-        rgba(0,0,0,0.45),
-        rgba(0,0,0,0.05)
-    );
-    z-index:2;
-}
-
-.slider img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    position:absolute;
-    opacity:0;
-    transform:scale(1.1);
-    transition:opacity 1.2s ease, transform 6s ease;
-}
-
-.slider img.active{
-    opacity:1;
-    transform:scale(1);
-}
-
+/* MAP ANIMATION */
 .map{
     position:relative;
-    height:80px;
+    height:70px;
     margin:14px 0;
 }
+
+.line{
+    position:absolute;
+    top:50%;
+    left:12%;
+    right:12%;
+    height:2px;
+    background:#ffb3c1;
+}
+
 .dot{
     position:absolute;
     top:50%;
@@ -89,38 +118,40 @@ h1{color:#ff4d6d;font-size:26px;margin-bottom:10px}
     background:#ff4d6d;
     transform:translateY(-50%);
 }
-.dot.left{left:10%}
-.dot.right{right:10%}
-.line{
-    position:absolute;
-    top:50%;
-    left:12%;
-    right:12%;
-    height:2px;
-    background:#ffb3c1;
-}
-.meet{
+
+.dot.left{left:12%}
+.dot.right{right:12%}
+
+.dot.meet{
     animation:meet 2s forwards;
 }
 
+/* BUTTON */
 button{
     width:100%;
     padding:14px;
     border:none;
     border-radius:30px;
     background:linear-gradient(135deg,#ff4d6d,#ff6a88);
-    color:#fff;
+    color:white;
     font-size:16px;
     font-weight:600;
     cursor:pointer;
     box-shadow:0 10px 25px rgba(255,77,109,.4);
 }
-.love{font-size:36px;display:none;margin-top:12px}
 
+.love{
+    margin-top:12px;
+    font-size:34px;
+    display:none;
+}
+
+/* ANIMATION */
 @keyframes fadeIn{
     from{opacity:0;transform:translateY(20px)}
     to{opacity:1;transform:translateY(0)}
 }
+
 @keyframes meet{
     to{left:50%;right:50%}
 }
@@ -129,51 +160,40 @@ button{
 <body>
 
 <div class="card">
-    <h1>Untuk Kamu ❤️</h1>
 
     <!-- FOTO -->
-     <div class="slider">
-        <img src="1.jpeg" class="active">
-        <img src="2.jpeg" class="active">
-        <img src="3.jpeg" class="active">
+    <div class="slider" id="slider">
+        <img src="4.jpeg" class="active">
+        <img src="5.jpeg">
+        <img src="1.jpeg">
+        <img src="2.jpeg">
+        <img src="IMG_6952.JPG">
 
-        <div style="
-            position:absolute;
-            bottom:14px;
-            left:16px;
-            right:16px;
-            color:white;
-            font-size:14px;
-            z-index:3;
-            text-align:left;
-            line-height:1.4;
-        ">
-            <b>Kita</b><br>
-            <span style="font-size:12px;opacity:.85">
-                Jauh di jarak, dekat di hati
-            </span>
+        <div class="caption">
+            Jauh di jarak, dekat di hati
         </div>
-     </div>
+    </div>
 
-    <!-- INFO -->
+    <h1>Untuk Kamu ❤️</h1>
+
     <div class="info">
         📍 <b id="cityA"></b> ⇄ <b id="cityB"></b><br>
         📏 Jarak: <b><span id="distance"></span> km</b><br>
         🗓️ Bersama: <b><span id="days"></span> hari</b><br>
-        ⏰ &nbsp; <b><span id="hours"></span> jam</b>
+        ⏰ Total waktu: <b><span id="hours"></span> jam</b>
     </div>
 
-    <!-- ANIMASI TITIK -->
     <div class="map">
         <div class="line"></div>
         <div class="dot left" id="dotA"></div>
         <div class="dot right" id="dotB"></div>
     </div>
 
-    <p>
-        Jarak ini cuma sementara.  
-        Tapi rasa ini selalu sama—  
-        pulangnya tetap ke kamu.
+    <p style="font-size:15px;color:#555;line-height:1.7">
+        Jarak ini mungkin memisahkan raga,  
+        tapi tidak pernah perasaan.  
+        Aku tunggu hari di mana jarak ini  
+        cuma jadi cerita.
     </p>
 
     <button onclick="playLove()">Aku kangen kamu 🤍</button>
@@ -182,60 +202,83 @@ button{
     <audio id="music">
         <source src="Nadhif Basalamah - kota ini tak sama tanpamu (Official Lyric Video).mp3" type="audio/mpeg">
     </audio>
+
 </div>
 
 <script>
-/* ========= DATA LDR ========= */
+/* ====== DATA LDR (EDIT DI SINI) ====== */
 const kotaA = "Yogyakarta";
 const kotaB = "Magelang";
 const cityA = { lat: -7.747562, lon: 110.441241 };
 const cityB = { lat: -7.4413495, lon: 110.1986787 };
 const startDate = "2025-06-20";
-/* ============================ */
+/* =================================== */
 
 document.getElementById("cityA").innerText = kotaA;
 document.getElementById("cityB").innerText = kotaB;
 
-function toRad(v){return v*Math.PI/180}
-function distance(){
-    const R=6371;
-    const dLat=toRad(cityB.lat-cityA.lat);
-    const dLon=toRad(cityB.lon-cityA.lon);
-    const a=Math.sin(dLat/2)**2+
-        Math.cos(toRad(cityA.lat))*Math.cos(toRad(cityB.lat))*Math.sin(dLon/2)**2;
-    return Math.round(R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a)));
+function toRad(v){ return v * Math.PI / 180; }
+
+function hitungJarak(){
+    const R = 6371;
+    const dLat = toRad(cityB.lat - cityA.lat);
+    const dLon = toRad(cityB.lon - cityA.lon);
+    const a = Math.sin(dLat/2)**2 +
+        Math.cos(toRad(cityA.lat)) *
+        Math.cos(toRad(cityB.lat)) *
+        Math.sin(dLon/2)**2;
+    return Math.round(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
 }
 
-function timeTogether(){
-    const start=new Date(startDate);
-    const now=new Date();
-    const diff=now-start;
+function hitungWaktu(){
+    const start = new Date(startDate);
+    const now = new Date();
+    const diff = now - start;
     return {
-        days:Math.floor(diff/(1000*60*60*24)),
-        hours:Math.floor(diff/(1000*60*60))
+        days: Math.floor(diff / (1000*60*60*24)),
+        hours: Math.floor(diff / (1000*60*60))
     };
 }
 
-const t=timeTogether();
-document.getElementById("distance").innerText=distance();
-document.getElementById("days").innerText=t.days;
-document.getElementById("hours").innerText=t.hours;
+const waktu = hitungWaktu();
+document.getElementById("distance").innerText = hitungJarak();
+document.getElementById("days").innerText = waktu.days;
+document.getElementById("hours").innerText = waktu.hours;
 
+/* SLIDER + SWIPE */
+const slider = document.getElementById("slider");
+const imgs = slider.querySelectorAll("img");
+let index = 0;
+let startX = 0;
+
+function showSlide(i){
+    imgs.forEach(img => img.classList.remove("active"));
+    imgs[i].classList.add("active");
+}
+
+setInterval(()=>{
+    index = (index + 1) % imgs.length;
+    showSlide(index);
+},4000);
+
+slider.addEventListener("touchstart",e=>{
+    startX = e.touches[0].clientX;
+});
+
+slider.addEventListener("touchend",e=>{
+    let endX = e.changedTouches[0].clientX;
+    if(startX - endX > 50) index = (index + 1) % imgs.length;
+    if(endX - startX > 50) index = (index - 1 + imgs.length) % imgs.length;
+    showSlide(index);
+});
+
+/* BUTTON ACTION */
 function playLove(){
     document.getElementById("music").play();
-    document.getElementById("love").style.display="block";
+    document.getElementById("love").style.display = "block";
     document.getElementById("dotA").classList.add("meet");
     document.getElementById("dotB").classList.add("meet");
 }
-
-/* SLIDER FOTO */
-let idx=0;
-const imgs=document.querySelectorAll(".slider img");
-setInterval(()=>{
-    imgs[idx].classList.remove("active");
-    idx=(idx+1)%imgs.length;
-    imgs[idx].classList.add("active");
-},3000);
 </script>
 
 </body>
