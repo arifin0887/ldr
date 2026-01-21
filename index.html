@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kita & Jarak ❤️</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    background:linear-gradient(135deg,#ff6a88,#ff99ac);
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    overflow:hidden;
+}
+.card{
+    background:rgba(255,255,255,.96);
+    border-radius:26px;
+    padding:26px 22px;
+    max-width:420px;
+    width:100%;
+    text-align:center;
+    box-shadow:0 25px 50px rgba(0,0,0,.25);
+    animation:fadeIn 1.5s ease;
+    z-index:2;
+}
+h1{color:#ff4d6d;font-size:26px;margin-bottom:10px}
+.info{
+    background:#fff0f4;
+    border-radius:18px;
+    padding:14px;
+    margin-bottom:14px;
+    font-size:14px;
+    color:#ff4d6d;
+    line-height:1.6;
+}
+.slider{
+    position:relative;
+    height:240px;
+    border-radius:22px;
+    overflow:hidden;
+    margin-bottom:18px;
+    box-shadow:0 15px 35px rgba(0,0,0,.25);
+}
+
+.slider::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+        to top,
+        rgba(0,0,0,0.45),
+        rgba(0,0,0,0.05)
+    );
+    z-index:2;
+}
+
+.slider img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    position:absolute;
+    opacity:0;
+    transform:scale(1.1);
+    transition:opacity 1.2s ease, transform 6s ease;
+}
+
+.slider img.active{
+    opacity:1;
+    transform:scale(1);
+}
+
+.map{
+    position:relative;
+    height:80px;
+    margin:14px 0;
+}
+.dot{
+    position:absolute;
+    top:50%;
+    width:14px;
+    height:14px;
+    border-radius:50%;
+    background:#ff4d6d;
+    transform:translateY(-50%);
+}
+.dot.left{left:10%}
+.dot.right{right:10%}
+.line{
+    position:absolute;
+    top:50%;
+    left:12%;
+    right:12%;
+    height:2px;
+    background:#ffb3c1;
+}
+.meet{
+    animation:meet 2s forwards;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:30px;
+    background:linear-gradient(135deg,#ff4d6d,#ff6a88);
+    color:#fff;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    box-shadow:0 10px 25px rgba(255,77,109,.4);
+}
+.love{font-size:36px;display:none;margin-top:12px}
+
+@keyframes fadeIn{
+    from{opacity:0;transform:translateY(20px)}
+    to{opacity:1;transform:translateY(0)}
+}
+@keyframes meet{
+    to{left:50%;right:50%}
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Untuk Kamu ❤️</h1>
+
+    <!-- FOTO -->
+     <div class="slider">
+        <img src="1.jpeg" class="active">
+        <img src="2.jpeg" class="active">
+        <img src="3.jpeg" class="active">
+
+        <div style="
+            position:absolute;
+            bottom:14px;
+            left:16px;
+            right:16px;
+            color:white;
+            font-size:14px;
+            z-index:3;
+            text-align:left;
+            line-height:1.4;
+        ">
+            <b>Kita</b><br>
+            <span style="font-size:12px;opacity:.85">
+                Jauh di jarak, dekat di hati
+            </span>
+        </div>
+     </div>
+
+    <!-- INFO -->
+    <div class="info">
+        📍 <b id="cityA"></b> ⇄ <b id="cityB"></b><br>
+        📏 Jarak: <b><span id="distance"></span> km</b><br>
+        🗓️ Bersama: <b><span id="days"></span> hari</b><br>
+        ⏰ &nbsp; <b><span id="hours"></span> jam</b>
+    </div>
+
+    <!-- ANIMASI TITIK -->
+    <div class="map">
+        <div class="line"></div>
+        <div class="dot left" id="dotA"></div>
+        <div class="dot right" id="dotB"></div>
+    </div>
+
+    <p>
+        Jarak ini cuma sementara.  
+        Tapi rasa ini selalu sama—  
+        pulangnya tetap ke kamu.
+    </p>
+
+    <button onclick="playLove()">Aku kangen kamu 🤍</button>
+    <div class="love" id="love">💖💗💞</div>
+
+    <audio id="music">
+        <source src="Nadhif Basalamah - kota ini tak sama tanpamu (Official Lyric Video).mp3" type="audio/mpeg">
+    </audio>
+</div>
+
+<script>
+/* ========= DATA LDR ========= */
+const kotaA = "Yogyakarta";
+const kotaB = "Magelang";
+const cityA = { lat: -7.747562, lon: 110.441241 };
+const cityB = { lat: -7.4413495, lon: 110.1986787 };
+const startDate = "2025-06-20";
+/* ============================ */
+
+document.getElementById("cityA").innerText = kotaA;
+document.getElementById("cityB").innerText = kotaB;
+
+function toRad(v){return v*Math.PI/180}
+function distance(){
+    const R=6371;
+    const dLat=toRad(cityB.lat-cityA.lat);
+    const dLon=toRad(cityB.lon-cityA.lon);
+    const a=Math.sin(dLat/2)**2+
+        Math.cos(toRad(cityA.lat))*Math.cos(toRad(cityB.lat))*Math.sin(dLon/2)**2;
+    return Math.round(R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a)));
+}
+
+function timeTogether(){
+    const start=new Date(startDate);
+    const now=new Date();
+    const diff=now-start;
+    return {
+        days:Math.floor(diff/(1000*60*60*24)),
+        hours:Math.floor(diff/(1000*60*60))
+    };
+}
+
+const t=timeTogether();
+document.getElementById("distance").innerText=distance();
+document.getElementById("days").innerText=t.days;
+document.getElementById("hours").innerText=t.hours;
+
+function playLove(){
+    document.getElementById("music").play();
+    document.getElementById("love").style.display="block";
+    document.getElementById("dotA").classList.add("meet");
+    document.getElementById("dotB").classList.add("meet");
+}
+
+/* SLIDER FOTO */
+let idx=0;
+const imgs=document.querySelectorAll(".slider img");
+setInterval(()=>{
+    imgs[idx].classList.remove("active");
+    idx=(idx+1)%imgs.length;
+    imgs[idx].classList.add("active");
+},3000);
+</script>
+
+</body>
+</html>
